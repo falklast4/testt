@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>ScanCentral DAST Installation and Configuration</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h2 id="section"></h2>
+<h4 id="ssl-certificate-in-.pfx-format-with-private-key">SSL Certificate
+in .PFX format with Private Key</h4>
+<ol type="1">
+<li>Obtain a Certificate with private key from Certificate Portal.
+<strong><code>.CER</code></strong></li>
+<li>Install the certificate in Personal Store</li>
+<li>After installation Export the Certificate in
+<strong><code>.PFX</code></strong> format with export private key.</li>
+</ol>
+<h4
+id="download-the-mcr-and-docker-images-for-fortify-dast-23.1">Download
+the MCR and Docker Images for Fortify DAST 23.1</h4>
+<ol type="1">
+<li>Download the script from
+<code>https://get.mirantis.com/install.ps1</code></li>
+<li>Allow downloaded script files to run in the current session in
+<code>powershell</code></li>
+</ol>
+<pre><code>    PS&gt; Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force -Scope Process;</code></pre>
+<ol start="3" type="1">
+<li>Run the installation script with
+the <strong><code>-DownloadOnly</code></strong> parameter. As per the
+parameter name, this action only downloads the zip file (no installation
+is performed).</li>
+</ol>
+<pre><code>    PS&gt; .\&lt;installation-script&gt; -DownloadOnly</code></pre>
+<ol start="4" type="1">
+<li>Copy the installation script and the installation zip file over to
+the air-gapped machine (PR Server) and run the install with
+the <strong><code>-Offline</code></strong> parameter.</li>
+</ol>
+<pre><code>    PS&gt; .\&lt;installation-script&gt; -Offline</code></pre>
+<ol start="5" type="1">
+<li>Start the Docker Service <code>Docker Engine</code> from
+<code>services.msc</code></li>
+<li>A restart is required for changes to take place.</li>
+</ol>
+<pre><code>    PS&gt; Restart-Computer</code></pre>
+<ol start="7" type="1">
+<li>After restart Download the following images using
+<code>docker pull</code> login Creds
+<code>elfskinnedjoyce:27febrauary@1997</code></li>
+</ol>
+<pre><code>    PS&gt; docker login</code></pre>
+<pre><code>    PS&gt; docker pull fortifydocker/lim:23.1
+    PS&gt; docker pull fortifydocker/scancentral-dast-api:23.1
+    PS&gt; docker pull fortifydocker/scancentral-dast-globalservice:23.1
+    PS&gt; docker pull fortifydocker/webinspect:23.1
+   </code></pre>
+<h4 id="installation-of-lim-on-docker">Installation of LIM on
+Docker</h4>
+<ol type="1">
+<li>Create a new folder at <strong><code>C:\LIM</code></strong> &amp;
+copy the <strong><code>.PFX</code></strong> certificate in the
+folder</li>
+<li>Open notepad and copy the content from below to notepad.</li>
+</ol>
+<pre><code>#!-- LIM Docker env file. --!
+LimUseSSL=true
+LimAdminWebSiteName=LIM.Admin
+LimServiceSiteName=LIM.Service
+LimApiSiteName=LIM.API
+LimDirectory=c:\LIM
+certpath=c:\LIM\limcert.pfx
+certpassword=changeit
+LimAdminUsername=limuser
+LimAdminPassword=limAdmin1901
+LimAdminEmail=limadmin@limadmin.com
+LimAdminFriendlyName=LimAdmin!
+LimLogsDirectory=c:\LIM\logs\</code></pre>
+<ol start="3" type="1">
+<li>Run Powershell as Administrator and run the following command to
+Configure and Start LIM Container.</li>
+</ol>
+<pre><code>docker run -v C:/LIM:c:/lim -d -p 9443:443 --restart always --env-file C:\LIM\LimDocker.env --memory=8g --cpus=2 --name lim fortifydocker/lim:23.1</code></pre>
+<ol start="4" type="1">
+<li><p>Make</p></li>
+<li><p>Extract the contents of <code>scancentral-dast-config.tar</code>
+from the <code>DASTConfigurationTool</code> File</p></li>
+<li><p>Locate the file <strong><code>fk*</code></strong> Folder</p></li>
+<li><p>Extract the <code>layer.tar</code> file from the folder</p></li>
+<li><p>Navigate to <strong><code>.\app\</code></strong></p></li>
+<li><p>Copy the <strong><code>DefaultData.zip</code></strong> file to a
+Different Location (for Database Seeding)</p></li>
+<li><p>Create a folder in
+<strong><code>C:\Config</code></strong></p></li>
+<li><p>Copy the <strong><code>.YAML</code></strong> file from the
+downloaded file to the Config folder</p></li>
+<li><p>Edit the <strong><code>YAML</code></strong> File with the proper
+parameter for URL and Credentials</p></li>
+<li><p>Create the configuration file with following command</p></li>
+</ol>
+<pre><code>    PS&gt; DAST.ConfigurationTool.exe configureEnvironment -mode autodeploy -settingFile &lt;config.yaml&gt; -outputDirectory C:\Config\</code></pre>
+<ol start="17" type="1">
+<li>The Database Seeding Process will start.
+<strong><code>(Will take around 40 mins)</code></strong></li>
+<li>Open the output Folder and Extract the content of
+<strong><code>scancentral-dast-windows.zip</code></strong></li>
+<li>Run the **<code>start-containers.ps1</code> script as Administrator
+in powershell.</li>
+<li>Wait till all the containers are up and running</li>
+</ol>
+<pre><code>PS&gt; docker ps</code></pre>
+<ol start="17" type="1">
+<li>Login Fortify SSC with Administrator Credentials</li>
+<li>Navigate to
+<strong><code>ADMINSITRATION &gt; Configuration &gt; Scancentral DAST</code></strong></li>
+<li>Enable the ScanCentral DAST check box</li>
+<li>Enter the DAST Controller URL and click
+<strong><code>SAVE</code></strong></li>
+<li>Navigate to <strong><code>SCANCENTRAL &gt; DAST</code></strong> to
+Load the SCANCENTRAL DAST Controller</li>
+</ol>
+<h2 id="installation-of-webinspect-23.1">Installation of WebInspect
+23.1</h2>
+<ol type="1">
+<li><p>Double-click the .exe or .msi file to start the Setup Wizard.</p>
+<p>The Welcome to the Micro Focus WebInspect Setup Wizard window
+appears.</p>
+<figure>
+<img
+src="C:\Users\Falk\Documents\DavyJonesLocker\images\01_Welcome_NoVer.png"
+alt="01_Welcome_NoVer" />
+<figcaption aria-hidden="true">01_Welcome_NoVer</figcaption>
+</figure></li>
+<li><p>Click <strong>Next.</strong></p>
+<p>The End‑User License Agreement window appears.</p>
+<figure>
+<img
+src="C:\Users\Falk\Documents\DavyJonesLocker\images\02_EULA_NoVer.png"
+alt="02_EULA_NoVer" />
+<figcaption aria-hidden="true">02_EULA_NoVer</figcaption>
+</figure></li>
+<li><p>Review the license agreement. If you accept it, select the check
+box and click <strong>Next</strong>; otherwise
+click <strong>Cancel</strong>.</p>
+<p>If you accept the license agreement, the Destination Folder window
+appears.</p>
+<figure>
+<img
+src="C:\Users\Falk\Documents\DavyJonesLocker\images\03_DestFolder_NoVer.png"
+alt="03_DestFolder_NoVer" />
+<figcaption aria-hidden="true">03_DestFolder_NoVer</figcaption>
+</figure></li>
+<li><p>In the Destination Folder window, do one of the following:</p>
+<ul>
+<li><p>If you are installing Fortify WebInspect as a sensor for Micro
+Focus Fortify WebInspect Enterprise, do <em>not</em> make any changes to
+the default Destination Folder. Click <strong>Next</strong>.</p>
+<p><code>C:\Program Files\Fortify\Fortify WebInspect</code></p></li>
+<li><p>Otherwise, you can accept the default Destination Folder or
+choose a different folder into which you want to install the software.
+Click <strong>Next</strong>.</p>
+<p>The Sensor Configuration window appears.</p>
+<figure>
+<img
+src="C:\Users\Falk\Documents\DavyJonesLocker\images\04_Sensor_NoVer.png"
+alt="04_Sensor_NoVer" />
+<figcaption aria-hidden="true">04_Sensor_NoVer</figcaption>
+</figure></li>
+</ul></li>
+<li><p>To install Fortify WebInspect as a sensor:</p>
+<ol type="1">
+<li><p>In the <strong>Configure WebInspect as a Sensor for this
+installation (optional)</strong> area, select <strong>Configure
+WebInspect as a Sensor</strong>.</p></li>
+<li><p>Enter the <strong>Enterprise Manager URL</strong>, that is, the
+URL of Fortify WebInspect Enterprise manager.</p></li>
+<li><p>In the Sensor Authentication group, enter the Windows account
+credentials for this sensor.</p></li>
+</ol>
+<p>For important information about installing Fortify WebInspect as a
+sensor and configuring it to work with Fortify WebInspect Enterprise,
+see the <em>Micro Focus Fortify WebInspect Enterprise Installation and
+Implementation Guide</em>.</p></li>
+<li><p>Click <strong>Next</strong>.</p>
+<p>The Ready to install Micro Focus WebInspect window appears. <img
+src="C:\Users\Falk\Documents\DavyJonesLocker\images\05_Ready_NoVer.png"
+alt="05_Ready_NoVer" /></p></li>
+<li><p>Click <strong>Install</strong>.</p>
+<p>When the installation process is complete, the Completed the Micro
+Focus WebInspect Setup Wizard window appears. <img
+src="C:\Users\Falk\Documents\DavyJonesLocker\images\07_Complete_NoVer.png"
+alt="07_Complete_NoVer" /></p></li>
+<li><p>Select <strong>Launch Fortify WebInspect</strong> and
+click <strong>Finish</strong>.</p>
+<p>The Setup Wizard closes and Fortify WebInspect launches.</p></li>
+<li><p>Activation of Webinspect with Fortify LIM</p>
+<ol type="1">
+<li>Enter the LIM URL <code>https://LIM_URL:9443/LIM.API</code></li>
+<li>Enter the License Pool Credentials for DAST</li>
+<li>Click on Activate</li>
+</ol></li>
+</ol>
+<h2 id="configuration-of-dast-scanner-service">Configuration of DAST
+Scanner Service</h2>
+<ol type="1">
+<li>Download the <strong><code>ScannerService.zip</code></strong> file
+from the Fortify ScanCentral DAST software download package.</li>
+<li>Install <strong><code>.NET Framework 7 SDK</code></strong> from</li>
+<li>Create a folder in
+<strong><code>C:\ScannerService</code></strong></li>
+<li>Extract the <strong><code>ScannerService.zip</code></strong> file to
+any directory, such as the following:
+<strong><code>C:\ScannerService</code></strong></li>
+<li>Place the <strong><code>appsettings.json</code></strong> file that
+the ScanCentral DAST Configuration Tool created in the same directory,
+replacing the existing file.</li>
+<li>Run <strong><code>cmd</code></strong> as Administrator and run the
+following command.</li>
+</ol>
+<pre><code>&gt; sc create ScannerWorkerService binpath= &quot;C:\ScannerService .\DAST.ScannerWorkerService.exe&quot; start= auto depend= &quot;WebInspect API&quot; displayname= &quot;WebInspect DAST Scanner Worker Service&quot;</code></pre>
+<ol start="6" type="1">
+<li>The <strong><code>ScannerWorkerService</code></strong> is created
+and automatically starts each time the computer is restarted.</li>
+</ol>
+</body>
+</html>

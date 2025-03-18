@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Scancentral SAST Installation & Configuration</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<h2 id="installation-of-scancentral-controller">Installation of
+Scancentral Controller</h2>
+<h4 id="installation-of-java">Installation of Java</h4>
+<ol type="1">
+<li><p>Download Java JDK 11 for Linux (.tar)</p></li>
+<li><p>Extract file to /opt folder
+<code># tar xzvf jdk-11.0.xx_linux-x64_bin.tar.gz -C /opt/jdk-11/      # nano /etc/profile</code></p></li>
+<li><p>Add <code>$JAVA_HOME</code> to <code>$PATH</code></p>
+<pre><code> export JAVA_HOME=/opt/jdk-11
+ export PATH=$JAVA_HOME/bin:$PATH</code></pre></li>
+<li><p>Source the profile file</p></li>
+</ol>
+<pre><code> # source /etc/profile</code></pre>
+<h4 id="installation-of-scancentral-controller-1">Installation of
+Scancentral Controller</h4>
+<ol start="5" type="1">
+<li>Extract the contents of the
+<code>Fortify_ScanCentral_Controller__x64.zip</code></li>
+</ol>
+<pre><code># unzip Fortify_ScanCentral_Controller__x64.zip -d /opt/
+# chown tomcat:tomcat -R /opt/tomcat/</code></pre>
+<ol start="6" type="1">
+<li><p>Configure the Controller service by creating a systemd unit
+file <code>tomcat.service</code> in
+the <code>/etc/systemd/system</code> directory with the following
+content.</p>
+<pre><code>[Unit]
+Description=ScanCentral SAST Controller Service
+After=syslogtarget network.target
+
+[Service]
+Type=forking
+
+Environment=JAVA_HOME=/opt/jdk-11
+Environemnt=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+Environment=CATALINA_HOME=/opt/tomcat
+Environment=CATALINA_BASE=/opt/tomcat
+
+ExecStart=/opt/tomcat/bin/startup.sh
+ExecStop=/bin/kill -15 $MAINPID
+
+[Install]
+WantedBy=multi-user.target</code></pre></li>
+<li><p>Reload the daemon to discover and load the new service
+file</p></li>
+</ol>
+<pre><code>systemctl daemon-reload</code></pre>
+<ol start="8" type="1">
+<li><p>Enable the service to start on startup by running the following
+command</p>
+<pre><code>systemctl enable tomcat.service</code></pre>
+<h4 id="configuration-of-scancentral-controller">Configuration of
+Scancentral Controller</h4></li>
+<li><p>Configure the values below parameters in
+<code>/opt/tomcat/webapps/scancentral-ctrl/WEB-INF/classes/config.properties</code></p></li>
+<li><p>Open <code>config.properties</code> in a text editor.</p>
+<pre><code> client_auth_token=***CLIENT
+ ...
+ ssc_scancentral_ctrl_secret=***SCANCENTRAL
+ ...
+ ssc_url=https://ssc-url/ssc
+ ...
+ this_url=https://sc-controller/scancentral-ctrl
+ ...
+ worker_auth_token=***WORKER</code></pre></li>
+<li><p>Save and close <code>config.properties</code> file</p></li>
+<li><p>Restart the <code>tomcat.service</code></p></li>
+</ol>
+<pre><code>    # systemctl restart tomcat.service</code></pre>
+<h4 id="integrating-controller-with-fortify-ssc">Integrating Controller
+with Fortify SSC</h4>
+<ol type="1">
+<li>Login in to Fortify SSC with Administrator Privileges.</li>
+<li>Navigate to
+<code>Administration &gt; Configuration &gt; Scancentral SAST</code></li>
+<li>Tick the <code>Enable ScanCentral SAST</code> check box</li>
+<li>In the <code>ScanCentral Controller URL</code> box type the URL for
+the Controller.</li>
+<li>In the <code>SSC and ScanCentral Controller shared secret</code> box
+type the exact <code>ssc_scancentral_ctrl_secret</code> which was set
+<code>config.properties</code></li>
+<li>Restart the tomcat service for <code>SSC Server</code></li>
+</ol>
+<pre><code>    # systemctl restart tomcat9.0.xx.service</code></pre>
+<ol start="7" type="1">
+<li>When you next login Fortify SSC, the header will be included with
+<code>SCANCENTRAL</code> tab. #### Importing Certificates in trusted
+keystore.</li>
+<li>Download the certificates from the browser for Fortify SSC and
+Fortify Scancentral SAST Controller in
+<strong><code>.CRT</code></strong> format.</li>
+<li>Move the certificates to the SSC Server and Controller Server at
+mentioned path
+<strong><code>/etc/pki/ca-trust/source/anchors</code></strong></li>
+<li>Run <code>update-ca-trust enable</code></li>
+<li>Run <code>update-ca-trust extract</code></li>
+<li>Open the <code>.CRT</code> file with <code>cat SSC.CRT</code> &amp;
+<code>cat SSCONTROLLER.CRT</code></li>
+<li>Copy the Contents of each certificate and append it to the mentioned
+ca-bundle.crt <code>etc/pki/tls/certs/ca-bundle.crt</code></li>
+</ol>
+<pre><code># mkdir /opt/BackUP
+# cp /etc/pki/tls/certs/ca-bundle.crt /opt/BackUP/
+# cat &quot;# SSC Certificate&quot; &gt;&gt; /etc/pki/tls/certs/ca-bundle.crt
+# cat &quot;SSC.CRT&quot; &gt;&gt; /etc/pki/tls/certs/ca-bundle.crt
+# cat &quot;# Controller Certificate&quot; &gt;&gt; /etc/pki/tls/certs/ca-bundle.crt
+# cat &quot;SSCONTROLLER.CRT&quot; &gt;&gt; /etc/pki/tls/certs/ca-bundle.crt</code></pre>
+<p><img src="C:\Users\Falk\Documents\DavyJonesLocker\images\1.png"
+alt="1" /> ### Installation of Fortify SCA 23.1 ### Windows &amp; RHEL
+## Installing Fortify Static Code Analyzer</p>
+<p>To install Fortify Static Code Analyzer:</p>
+<ol type="1">
+<li>Run the installer file for your operating system to start
+the Fortify Static Code Analyzer Setup Wizard:
+<ul>
+<li>Windows: <code>Fortify_SCA__&lt;version&gt;_``_windows_x64.exe</code></li>
+<li>Linux: <code>Fortify_SCA__&lt;version&gt;_``_linux_x64.run</code></li>
+</ul></li>
+<li>Review and accept the license agreement, and then
+click <strong>Next</strong>.</li>
+<li>Select the components to install, and then
+click <strong>Next</strong>.</li>
+<li>If the installer detects that the system does not include the
+minimum software required to analyze some types of projects, a System
+Requirements page displays any missing requirements and which projects
+require them.</li>
+<li>Choose where to install Fortify Static Code Analyzer, and then
+click <strong>Next</strong>.</li>
+<li>Specify the path to the <code>fortify.license</code> file, and then
+click <strong>Next</strong>.</li>
+<li>On the LIM License page, select <strong>No</strong> to use
+the Fortify License and Infrastructure Manager (LIM) for managing your
+concurrent licenses, and then click <strong>Next</strong>.</li>
+<li>Specify the settings required to update your Fortify security
+content. click <strong>Next</strong></li>
+<li>Specify if you want to migrate from a previous installation
+of Fortify Static Code Analyzer on your system. (Migrating from a
+previous Fortify Static Code Analyzer installation preserves Fortify
+Static Code Analyzer artifact files. To skip migration of artifacts from
+a previous release, leave the <strong>Static Code
+Analyzer Migration</strong> selection set to <strong>No</strong>, and
+then click <strong>Next</strong>.)</li>
+<li>Click <strong>Next</strong> on the Ready to Install page to
+install Fortify Static Code Analyzer, any selected components,
+and Fortify security content.</li>
+<li>Click <strong>Finish</strong> to close the Fortify Static Code
+Analyzer Setup Wizard.</li>
+<li>Import the Rulepacks with the latest rulepack
+<strong><code>(.ZIP)</code></strong> file.</li>
+</ol>
+<pre><code>fortifyupdate -import Rulepack.zip</code></pre>
+<ol start="13" type="1">
+<li>After Installation Import the necessary certificates into the SCA
+keystore using the below command
+<ul>
+<li>Fortify SSC Certificate</li>
+<li>Fortify Scancentral SAST Controller Certificate ``` To add a trusted
+certificate to the Fortify Static Code Analyzer keystore:
+<sca_install_dir><em>/jre/bin/keytool -importcert -alias
+</em><alias_name>_ -cacerts -file _<cert_file></li>
+</ul></li>
+</ol>
+<p>Enter the keystore password.</p>
+<pre><code>**Note:** The default password is `changeit`.</code></pre>
+<p>When prompted to trust this certificate, select <strong>yes</strong>.
+```</p>
+<h2 id="installing-a-scancentral-sast-sensor-as-a-service">Installing
+a ScanCentral SAST Sensor as a Service</h2>
+<p>To install the sensor as a Windows service:</p>
+<ol type="1">
+<li><p>Navigate to
+the <code>`_&lt;sca_install_dir&gt;_\bin\scancentral-worker-service`</code> directory,
+and then do one of the following:</p>
+<ul>
+<li><p>To use a clear text password,
+run <code>setupworkerservice.bat &lt;_sca_version_&gt; &lt;_full_controller_url_&gt; &lt;_shared_secret_&gt;</code></p>
+<p><strong>Examples:</strong><br />
+For a worker_auth_token that contains a single caret, such as this^that,
+run the following command:<br />
+`setupworkerservice.bat 23.1 http://url.com **WORKER</p></li>
+</ul></li>
+<li><p>Start the service, as follows:</p>
+<p><code>net start FortifyScanCentralWorkerService</code></p></li>
+<li><p>After verification, change the startup type setting
+to <strong>Automatic (Delayed Start)</strong> in Windows
+Services.</p></li>
+</ol>
+<p>The services installer creates
+the <code>&lt;_sca_install_dir_&gt;\Core\config\worker.properties</code> file
+for you.</p>
+<h2
+id="installing-fortify-static-code-analyzer-applications-and-tools">Installing Fortify
+Static Code Analyzer Applications and Tools</h2>
+<p>To install Fortify Static Code Analyzer applications and tools:</p>
+<ol type="1">
+<li><p>Run the installer file for your operating system to start
+the Fortify Applications and Tools Setup Wizard:</p>
+<ul>
+<li>Windows: <code>Fortify_Apps_and_Tools__&lt;version&gt;__windows_x64.exe</code></li>
+<li>Linux: <code>Fortify_Apps_and_Tools__&lt;version&gt;__linux_x64.run</code></li>
+</ul></li>
+<li><p>Click <strong>Next</strong>.</p></li>
+<li><p>Review and accept the license agreement, and then
+click <strong>Next</strong>.</p></li>
+<li><p>Choose where to install Fortify Applications and Tools, and then
+click <strong>Next</strong>.
+<code>Important! Do not install Fortify Applications and Tools in the same directory where Fortify Static Code Analyzer is installed.</code></p></li>
+<li><p>Select the components to install, and then
+click <strong>Next</strong>. (Plugins According to the IDEs)<br />
+</p></li>
+<li><p>Specify the path to the <code>fortify.license</code> file, and
+then click <strong>Next</strong>.</p></li>
+<li><p>Specify if you want to migrate from a previous installation
+of Fortify Applications and Tools on your system.</p>
+<p>To migrate artifacts from a previous installation:</p>
+<ol type="1">
+<li>In the Applications and Tools Migration page,
+select <strong>Yes</strong>, and then click <strong>Next</strong>.</li>
+<li>Specify the location of the existing Fortify Applications and
+Tools installation on your system, and then
+click <strong>Next</strong>.</li>
+</ol>
+<p>To skip migration of artifacts from a previous release, leave the
+Applications and Tools Migration selection set to <strong>No</strong>,
+and then click <strong>Next</strong>.</p></li>
+<li><p>If you are installing the Fortify Extension for Visual Studio, do
+the following:</p>
+<ol type="1">
+<li><p>Specify whether to install the extensions for the current install
+user or for all users.</p>
+<p>The default is to install the extensions for only the current install
+user.</p></li>
+<li><p>Click <strong>Next</strong>.</p></li>
+</ol></li>
+<li><p>Click <strong>Next</strong> on the Ready to Install page to
+install Fortify Applications and Tools.</p></li>
+<li><p>Click <strong>Finish</strong> to close the Fortify Applications
+and Tools Setup Wizard.</p></li>
+</ol>
+<h2 id="to-install-the-fortify-analysis-plugin">To install the Fortify
+Analysis Plugin:</h2>
+<p><strong>Note</strong> : Use restrictedfortify.license for Plugin
+related installations.</p>
+<ol type="1">
+<li><p>Run the Fortify Static Code Analyzer Applications and
+Tools installation and select the <strong>IntelliJ IDEA
+Analysis</strong> component from the list of plugins.</p></li>
+<li><p>Start IntelliJ IDEA</p></li>
+<li><p>Open the Settings dialog box as follows:</p>
+<ul>
+<li>On Windows or Linux, select <strong>File &gt;
+Settings</strong>.</li>
+</ul></li>
+<li><p>On the left, select <strong>Plugins</strong>.</p></li>
+<li><p>Select <strong>Install Plugin from Disk</strong>, browse to
+the <code>_&lt;tools_install_dir&gt;_/plugins/IntelliJAnalysis</code> directory,
+and then
+select <code>Fortify_IntelliJ_Analysis_Plugin__&lt;version&gt;_.zip</code>.</p></li>
+<li><p>Click <strong>OK</strong>.</p></li>
+<li><p>To activate the plugin, restart the IDE.</p></li>
+</ol>
+<p>The menu bar now includes the Fortify menu.</p>
+<h2
+id="configuring-fortify-scancentral-sast-options">Configuring Fortify
+ScanCentral SAST Options</h2>
+<p>To configure the Fortify ScanCentral SAST options:</p>
+<ol type="1">
+<li><p>Select <strong>Fortify &gt; Analysis Settings</strong>.</p></li>
+<li><p>Select the <strong>ScanCentral
+SAST Configuration</strong> tab.</p></li>
+<li><p>Select <strong>Enable ScanCentral SAST upload</strong>.<br />
+[[images/ScanCentralConfig.png]]</p></li>
+<li><p>To specify how to connect to Fortify ScanCentral SAST, do one of
+the following:</p>
+<ul>
+<li><p>Select <strong>Use Controller URL</strong>, and then in
+the <strong>Controller URL</strong> box, type the URL for
+the ScanCentral SAST Controller.</p>
+<p>Example: <code>https://_&lt;controller_host&gt;_:_&lt;port&gt;_/scancentral-ctrl</code></p>
+<p><strong>Tip:</strong> Click <strong>Test Connection</strong> to
+confirm that the URL is valid, and the Controller is
+accessible.</p></li>
+<li><p>Select <strong>Get Controller URL from SSC</strong>, and then in
+the <strong>Token</strong> box, paste the decoded token value for an
+authentication token of type ToolsConnectToken.</p>
+<p><strong>Tip:</strong> Click <strong>Test Connection</strong> to
+confirm that the URL and token is valid, and the server is
+accessible.</p></li>
+</ul></li>
+<li><p>To upload the analysis results to Fortify Software Security
+Center, do the following:</p>
+<ol type="1">
+<li><p>Select the <strong>Send scan results to SSC</strong> check
+box.</p></li>
+<li><p>In the <strong>Token</strong> box, paste the decoded token value
+for an authentication token of type ToolsConnectToken.</p></li>
+</ol></li>
+<li><p>Under <strong>Default translation type</strong>, specify where to
+run the translation phase of the analysis by selecting one of the
+following:</p>
+<ul>
+<li><strong>Remote</strong>—Run the entire analysis with Fortify
+ScanCentral SAST.</li>
+</ul></li>
+<li><p>(Optional) To specify Micro Focus Fortify Static Code
+Analyzer command-line options for the translation or scan phase:</p>
+<ol type="1">
+<li><p>Select the <strong>Advanced Options</strong> tab.</p></li>
+<li><p>Select the <strong>Use additional SCA options</strong> check box
+and type Fortify Static Code Analyzer command‑line options for the
+translation or scan phase.</p></li>
+</ol></li>
+<li><p>Click <strong>OK</strong> to save the configuration.</p></li>
+</ol>
+<h3 id="scanning-projects-with-fortify-scancentral-sast">Scanning
+Projects with Fortify ScanCentral SAST</h3>
+<p>To scan a project with Fortify ScanCentral SAST:</p>
+<ol type="1">
+<li><p>Select <strong>Fortify &gt; Analyze Project with
+ScanCentral</strong>.</p></li>
+<li><p>If prompted, select the application version where you want to
+upload the analysis results, and then click <strong>OK</strong>.
+[[images/SelectAppVersion.png]]</p></li>
+</ol>
+<p>To view the analysis results, you can either:</p>
+<ul>
+<li>Copy the provided job token and use it in the Fortify ScanCentral
+SAST command-line interface to check the status and retrieve
+the analysis results</li>
+</ul>
+</body>
+</html>
